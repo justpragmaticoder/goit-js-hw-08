@@ -97,16 +97,30 @@ function addGalleryItems(galleryImages) {
 (() => {
   addGalleryItems(images);
 
-  const galleryItemsList = document.querySelectorAll(".gallery .gallery-item");
+  const gallery = document.querySelector("ul.gallery");
+  const galleryItemsList = gallery.querySelectorAll(".gallery-item");
 
   galleryItemsList.forEach(function (galleryItem) {
     galleryItem.onclick = (event) => {
       event.preventDefault();
+
       const galleryImg = galleryItem.querySelector("img");
       const dataSource = galleryImg.getAttribute("data-source");
       const alt = galleryImg.getAttribute("alt");
 
-      basicLightbox.create(getImgHtml({ src: dataSource, dataSource, alt })).show();
+      basicLightbox
+        .create(getImgHtml({ src: dataSource, dataSource, alt }))
+        .show();
     };
+  });
+
+  gallery.addEventListener("click", (event) => {
+    event.preventDefault();
+
+    const target = event.target;
+
+    if (target.tagName === "IMG") {
+      console.log('Big image URL: ', target.getAttribute('data-source'));
+    }
   });
 })();
