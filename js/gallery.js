@@ -98,29 +98,23 @@ function addGalleryItems(galleryImages) {
   addGalleryItems(images);
 
   const gallery = document.querySelector("ul.gallery");
-  const galleryItemsList = gallery.querySelectorAll(".gallery-item");
-
-  galleryItemsList.forEach(function (galleryItem) {
-    galleryItem.onclick = (event) => {
-      event.preventDefault();
-
-      const galleryImg = galleryItem.querySelector("img");
-      const dataSource = galleryImg.getAttribute("data-source");
-      const alt = galleryImg.getAttribute("alt");
-
-      basicLightbox
-        .create(getImgHtml({ src: dataSource, dataSource, alt }))
-        .show();
-    };
-  });
 
   gallery.addEventListener("click", (event) => {
     event.preventDefault();
 
     const target = event.target;
 
-    if (target.tagName === "IMG") {
-      console.log('Big image URL: ', target.getAttribute('data-source'));
+    if (target.tagName !== "IMG") {
+      return;
     }
+
+    const dataSource = target.getAttribute("data-source");
+    const alt = target.getAttribute("alt");
+
+    basicLightbox
+      .create(getImgHtml({ src: dataSource, dataSource, alt }))
+      .show();
+
+    console.log("Big image URL: ", dataSource);
   });
 })();
